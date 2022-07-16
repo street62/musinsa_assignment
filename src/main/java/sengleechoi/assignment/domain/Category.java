@@ -1,6 +1,5 @@
 package sengleechoi.assignment.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -17,6 +16,21 @@ public class Category {
     private String name;
     @ManyToOne(fetch = FetchType.LAZY)
     private Category parentCategory;
-    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY)
+    @Transient
     private final List<Category> subCategories = new ArrayList<>();
+
+    public void addSubCategory(Category category) {
+        category.mapParentCategory(this);
+    }
+
+    public void mapParentCategory(Category parentCategory) {
+        if (hasParentCategory()) {
+            this.parentCategory = parentCategory;
+            parentCategory.getSubCategories().add(this);
+        }
+    }
+
+    public boolean hasParentCategory() {
+        return parentCategory != null;
+    }
 }
