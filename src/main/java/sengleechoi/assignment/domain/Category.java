@@ -26,7 +26,7 @@ public class Category {
     public Category(String name) {
         this.name = name;
     }
-    
+
     public void mapParentCategory(Category parentCategory) {
         if (parentCategory != null) {
             this.parentCategory = parentCategory;

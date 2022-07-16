@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sengleechoi.assignment.dto.GeneralResponse;
+import sengleechoi.assignment.dto.category.ParentModificationRequest;
 import sengleechoi.assignment.dto.category.CategoryCreationRequest;
 import sengleechoi.assignment.dto.category.CategoryCreationResponse;
 import sengleechoi.assignment.dto.category.CategoryListResponse;
@@ -30,6 +31,11 @@ public class CategoryController {
     @PostMapping
     public ResponseEntity<CategoryCreationResponse> createCategory(@RequestBody CategoryCreationRequest request) {
         return ResponseEntity.ok(categoryService.createCategory(request));
+    }
+
+    @PatchMapping("/{categoryId}/parent")
+    public ResponseEntity<GeneralResponse> modifyParentCategory(@PathVariable Long categoryId, @RequestBody ParentModificationRequest request) {
+        return ResponseEntity.ok(categoryService.modifyParentCategory(categoryId, request));
     }
 
 

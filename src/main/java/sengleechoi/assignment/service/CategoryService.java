@@ -5,10 +5,7 @@ import org.springframework.stereotype.Service;
 import sengleechoi.assignment.domain.Category;
 import sengleechoi.assignment.domain.CategoryRepository;
 import sengleechoi.assignment.dto.GeneralResponse;
-import sengleechoi.assignment.dto.category.CategoryCreationRequest;
-import sengleechoi.assignment.dto.category.CategoryCreationResponse;
-import sengleechoi.assignment.dto.category.CategoryListResponse;
-import sengleechoi.assignment.dto.category.CategoryResponse;
+import sengleechoi.assignment.dto.category.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,5 +43,17 @@ public class CategoryService {
         Category category = new Category(request.getName());
         Category savedCategory = categoryRepository.save(category);
         return CategoryCreationResponse.from(savedCategory);
+    }
+
+    public GeneralResponse modifyParentCategory(Long categoryId, ParentModificationRequest request) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException()); // 추후 예외처리 필요(NOT FOUND 등 응답처리)
+        Category parentCategory = categoryRepository.findById(request.getParentCategoryId())
+                .orElseThrow(() -> new RuntimeException()); // 추후 예외처리 필요(NOT FOUND 등 응답처리)
+
+        category.mapParentCategory(parentCategory);
+        categoryRepository.save(category);
+
+        return new GeneralResponse(200, "상위 카테고리가 추가되었습니다.");
     }
 }
