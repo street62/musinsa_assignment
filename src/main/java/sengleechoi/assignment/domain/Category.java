@@ -15,8 +15,8 @@ public class Category {
     @Column(name = "CATEGORY_ID")
     private Long id;
     private String name;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Category parentCategory;
-    @OneToMany(mappedBy = "parentCategory")
+    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY)
     private final List<Category> subCategories = new ArrayList<>();
 }
