@@ -33,9 +33,9 @@ public class Category {
             parentCategory.addSubCategory(this);
         }
     }
-
+    
     private void addSubCategory(Category category) {
-        category.mapParentCategory(this);
+        subCategories.add(category);
     }
 
     public boolean hasParentCategory() {
