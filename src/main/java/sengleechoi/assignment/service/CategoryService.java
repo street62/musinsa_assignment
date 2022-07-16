@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -27,7 +28,10 @@ public class CategoryService {
     }
 
     public CategoryListResponse getAllCategories() {
-        List<Category> categories = new ArrayList<>(getCategoriesFromDatabase().values());
+        List<Category> categories = new ArrayList<>(getCategoriesFromDatabase().values())
+                .stream()
+                .filter(Predicate.not(Category::hasParentCategory))
+                .collect(Collectors.toList());
         return CategoryListResponse.from(categories);
     }
 
