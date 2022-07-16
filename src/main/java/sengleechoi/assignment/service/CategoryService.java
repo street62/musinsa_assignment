@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sengleechoi.assignment.domain.Category;
 import sengleechoi.assignment.domain.CategoryRepository;
+import sengleechoi.assignment.dto.GeneralResponse;
+import sengleechoi.assignment.dto.category.CategoryCreationRequest;
+import sengleechoi.assignment.dto.category.CategoryCreationResponse;
 import sengleechoi.assignment.dto.category.CategoryListResponse;
 import sengleechoi.assignment.dto.category.CategoryResponse;
 
@@ -33,5 +36,11 @@ public class CategoryService {
                 .stream()
                 .peek(category -> category.mapParentCategory(category.getParentCategory()))
                 .collect(Collectors.toMap(Category::getId, Function.identity()));
+    }
+
+    public CategoryCreationResponse createCategory(CategoryCreationRequest request) {
+        Category category = new Category(request.getName());
+        Category savedCategory = categoryRepository.save(category);
+        return CategoryCreationResponse.from(savedCategory);
     }
 }

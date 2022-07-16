@@ -19,6 +19,14 @@ public class Category {
     @Transient
     private final List<Category> subCategories = new ArrayList<>();
 
+    public Category() {
+
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
+
     public void addSubCategory(Category category) {
         category.mapParentCategory(this);
     }

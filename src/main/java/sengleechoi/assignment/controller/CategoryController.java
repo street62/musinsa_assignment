@@ -3,6 +3,9 @@ package sengleechoi.assignment.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sengleechoi.assignment.dto.GeneralResponse;
+import sengleechoi.assignment.dto.category.CategoryCreationRequest;
+import sengleechoi.assignment.dto.category.CategoryCreationResponse;
 import sengleechoi.assignment.dto.category.CategoryListResponse;
 import sengleechoi.assignment.dto.category.CategoryResponse;
 import sengleechoi.assignment.service.CategoryService;
@@ -22,6 +25,11 @@ public class CategoryController {
     @GetMapping("/{categoryId}")
     public ResponseEntity<CategoryResponse> loadCategoriesById(@PathVariable("categoryId") Long categoryId) {
         return ResponseEntity.ok(categoryService.getCategoriesById(categoryId));
+    }
+
+    @PostMapping
+    public ResponseEntity<CategoryCreationResponse> createCategory(@RequestBody CategoryCreationRequest request) {
+        return ResponseEntity.ok(categoryService.createCategory(request));
     }
 
 
