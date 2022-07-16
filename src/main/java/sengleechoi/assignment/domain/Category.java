@@ -18,6 +18,7 @@ public class Category {
     private Category parentCategory;
     @Transient
     private final List<Category> subCategories = new ArrayList<>();
+    private Boolean isDeleted = false;
 
     public Category() {
 
@@ -44,5 +45,12 @@ public class Category {
 
     public boolean hasParentCategory() {
         return parentCategory != null;
+    }
+
+    public void markAsDelete() {
+        for (Category subCategory : subCategories) {
+            subCategory.markAsDelete();
+        }
+        isDeleted = true;
     }
 }

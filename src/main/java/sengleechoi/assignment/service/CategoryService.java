@@ -24,7 +24,6 @@ public class CategoryService {
     public Category getCategoryById(Long categoryId) {
         return getCategoriesFromDatabase().get(categoryId);
     }
-
     public List<Category> getAllCategories() {
         return new ArrayList<>(getCategoriesFromDatabase().values())
                 .stream()
@@ -58,5 +57,10 @@ public class CategoryService {
                 .orElseThrow(() -> new RuntimeException()); // 추후 예외처리 필요(NOT FOUND 등 응답처리)
         category.modifyName(request.getName());
 
+    }
+
+    public void deleteCategory(Long categoryId) {
+        Category category = getCategoryById(categoryId);
+        category.markAsDelete();
     }
 }

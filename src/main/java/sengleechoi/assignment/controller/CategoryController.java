@@ -46,6 +46,12 @@ public class CategoryController {
         return ResponseEntity.ok(new GeneralResponse(200, "카테고리명이 변경되었습니다."));
     }
 
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<GeneralResponse> deleteCategory(@PathVariable Long categoryId) {
+        categoryService.deleteCategory(categoryId);
+        return ResponseEntity.ok(new GeneralResponse(200, "카테고리가 삭제되었습니다."));
+    }
+
     @PatchMapping("/{categoryId}/parent")
     public ResponseEntity<GeneralResponse> modifyParentCategory(@PathVariable Long categoryId, @RequestBody ParentModificationRequest request) {
         categoryService.modifyParentCategory(categoryId, request);

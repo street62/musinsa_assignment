@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    @Query("select c1 from Category c1 left join fetch c1.parentCategory")
+    @Query("select c1 from Category c1 left join fetch c1.parentCategory where c1.isDeleted = false")
     public List<Category> findAllCategories();
 }
