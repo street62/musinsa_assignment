@@ -1,10 +1,11 @@
 package sengleechoi.assignment.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sengleechoi.assignment.domain.Category;
 import sengleechoi.assignment.domain.CategoryRepository;
-import sengleechoi.assignment.dto.GeneralResponse;
 import sengleechoi.assignment.dto.category.*;
 
 import java.util.ArrayList;
@@ -15,11 +16,12 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
-    public Category getCategoriesById(Long categoryId) {
+    public Category getCategoryById(Long categoryId) {
         return getCategoriesFromDatabase().get(categoryId);
     }
 
@@ -49,7 +51,6 @@ public class CategoryService {
                 .orElseThrow(() -> new RuntimeException()); // 추후 예외처리 필요(NOT FOUND 등 응답처리)
 
         category.mapParentCategory(parentCategory);
-        categoryRepository.save(category);
     }
 
     public void modifyCategoryName(Long categoryId, CategoryNameModificationRequest request) {
@@ -57,6 +58,5 @@ public class CategoryService {
                 .orElseThrow(() -> new RuntimeException()); // 추후 예외처리 필요(NOT FOUND 등 응답처리)
         category.modifyName(request.getName());
 
-        categoryRepository.save(category);
     }
 }
