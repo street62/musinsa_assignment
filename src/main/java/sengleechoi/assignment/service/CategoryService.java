@@ -51,4 +51,12 @@ public class CategoryService {
         category.mapParentCategory(parentCategory);
         categoryRepository.save(category);
     }
+
+    public void modifyCategoryName(Long categoryId, CategoryNameModificationRequest request) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException()); // 추후 예외처리 필요(NOT FOUND 등 응답처리)
+        category.modifyName(request.getName());
+
+        categoryRepository.save(category);
+    }
 }

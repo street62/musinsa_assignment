@@ -40,10 +40,15 @@ public class CategoryController {
         return ResponseEntity.ok(CategoryCreationResponse.from(savedCategory));
     }
 
+    @PatchMapping("/{categoryId}")
+    public ResponseEntity<GeneralResponse> modifyCategoryName(@PathVariable Long categoryId, @RequestBody CategoryNameModificationRequest request) {
+        categoryService.modifyCategoryName(categoryId, request);
+        return ResponseEntity.ok(new GeneralResponse(200, "상위 카테고리가 추가되었습니다."));
+    }
     @PatchMapping("/{categoryId}/parent")
     public ResponseEntity<GeneralResponse> modifyParentCategory(@PathVariable Long categoryId, @RequestBody ParentModificationRequest request) {
         categoryService.modifyParentCategory(categoryId, request);
-        return ResponseEntity.ok(new GeneralResponse(200, "상위 카테고리가 추가되었습니다."));
+        return ResponseEntity.ok(new GeneralResponse(200, "카테고리명이 변경되었습니다."));
     }
 
 

@@ -33,7 +33,11 @@ public class Category {
             parentCategory.addSubCategory(this);
         }
     }
-    
+
+    public void modifyName(String name) {
+        this.name = name;
+    }
+
     private void addSubCategory(Category category) {
         subCategories.add(category);
     }
