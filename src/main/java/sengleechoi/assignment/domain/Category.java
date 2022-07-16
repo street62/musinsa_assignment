@@ -26,16 +26,16 @@ public class Category {
     public Category(String name) {
         this.name = name;
     }
-
-    public void addSubCategory(Category category) {
-        category.mapParentCategory(this);
+    
+    public void mapParentCategory(Category parentCategory) {
+        if (parentCategory != null) {
+            this.parentCategory = parentCategory;
+            parentCategory.addSubCategory(this);
+        }
     }
 
-    public void mapParentCategory(Category parentCategory) {
-        if (hasParentCategory()) {
-            this.parentCategory = parentCategory;
-            parentCategory.getSubCategories().add(this);
-        }
+    private void addSubCategory(Category category) {
+        category.mapParentCategory(this);
     }
 
     public boolean hasParentCategory() {
