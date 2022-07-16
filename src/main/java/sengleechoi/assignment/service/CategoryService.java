@@ -19,17 +19,15 @@ import java.util.stream.Collectors;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
-    public CategoryResponse getCategoriesById(Long categoryId) {
-        Map<Long, Category> categories = getCategoriesFromDatabase();
-        return CategoryResponse.from(categories.get(categoryId));
+    public Category getCategoriesById(Long categoryId) {
+        return getCategoriesFromDatabase().get(categoryId);
     }
 
-    public CategoryListResponse getAllCategories() {
-        List<Category> categories = new ArrayList<>(getCategoriesFromDatabase().values())
+    public List<Category> getAllCategories() {
+        return new ArrayList<>(getCategoriesFromDatabase().values())
                 .stream()
                 .filter(Predicate.not(Category::hasParentCategory))
                 .collect(Collectors.toList());
-        return CategoryListResponse.from(categories);
     }
 
     private Map<Long, Category> getCategoriesFromDatabase() {
@@ -39,13 +37,12 @@ public class CategoryService {
                 .collect(Collectors.toMap(Category::getId, Function.identity()));
     }
 
-    public CategoryCreationResponse createCategory(CategoryCreationRequest request) {
+    public Category createCategory(CategoryCreationRequest request) {
         Category category = new Category(request.getName());
-        Category savedCategory = categoryRepository.save(category);
-        return CategoryCreationResponse.from(savedCategory);
+        return categoryRepository.save(category);
     }
 
-    public GeneralResponse modifyParentCategory(Long categoryId, ParentModificationRequest request) {
+    public void modifyParentCategory(Long categoryId, ParentModificationRequest request) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException()); // 추후 예외처리 필요(NOT FOUND 등 응답처리)
         Category parentCategory = categoryRepository.findById(request.getParentCategoryId())
@@ -53,7 +50,5 @@ public class CategoryService {
 
         category.mapParentCategory(parentCategory);
         categoryRepository.save(category);
-
-        return new GeneralResponse(200, "상위 카테고리가 추가되었습니다.");
     }
 }
